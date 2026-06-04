@@ -1,8 +1,8 @@
-# Xizhi LiDAR Weather Monitor
+# Taiwan LiDAR Weather Bot
 
-Small Python monitor for finding LiDAR-worthy weather windows in Xizhi District, New Taipei City (`新北市汐止區`).
+Small Python Telegram bot for finding LiDAR-worthy weather windows in Taiwan townships.
 
-It uses the Central Weather Administration Open Data API, sends Telegram notifications for special weather only, and sends a configurable regular summary even when nothing special happened.
+It uses the Central Weather Administration Open Data API, sends Telegram notifications for special weather only, supports configurable monitoring locations, and sends a configurable regular summary even when nothing special happened.
 
 ## What It Alerts On
 
@@ -17,7 +17,7 @@ Immediate Telegram alerts are sent for:
 - Numeric low visibility at or below `VISIBILITY_ALERT_M`.
 - Numeric strong wind at or above `WIND_ALERT_MPS` or `BEAUFORT_ALERT`.
 - Wet ground after sustained rain, using rain observations accumulated in `state.json`.
-- Matching CWA warning feeds that mention New Taipei or Xizhi.
+- Matching CWA warning feeds that mention the configured county or township.
 
 Light rain, normal rain, and `大雨` alone are not immediate alerts. They still appear in the regular summary.
 
@@ -26,7 +26,8 @@ Forecast-only thunderstorm wording, such as `午後雷陣雨`, is summary-only. 
 ## Data Sources
 
 - CWA Open Data API base: `https://opendata.cwa.gov.tw/api/v1/rest/datastore`
-- New Taipei township 3-day forecast dataset: `F-D0047-069`
+- Default New Taipei township 3-day forecast dataset: `F-D0047-069`
+- All-township forecast dataset used for chat-configured locations: `F-D0047-093`
 - Default location filter: `LocationName=汐止區`
 - Warning feeds are configured in `.env` through `CWA_WARNING_DATASET_IDS`.
 - Lightning observation data is configured through `CWA_LIGHTNING_DATASET_ID`.
@@ -35,6 +36,7 @@ Forecast-only thunderstorm wording, such as `午後雷陣雨`, is summary-only. 
 CWA dataset references:
 
 - [New Taipei township 3-day forecast, F-D0047-069](https://opendata.cwa.gov.tw/dataset/forecast/F-D0047-069)
+- [All-township forecast, F-D0047-093](https://opendata.cwa.gov.tw/dataset/forecast/F-D0047-093)
 - [Lightning observation, O-A0039-001](https://opendata.cwa.gov.tw/dataset/observation/O-A0039-001)
 - [CWA warning datasets](https://opendata.cwa.gov.tw/dataset/warning?page=1)
 - [CWA API documentation](https://opendata.cwa.gov.tw/dist/opendata-swagger.html)
@@ -98,9 +100,9 @@ In Telegram, send one of these messages to the bot:
 摘要起始 08:00
 ```
 
-The bot replies with the latest Xizhi weather summary and whether any LiDAR immediate-notification condition is active.
+The bot replies with the latest weather summary for the monitored or requested township and whether any LiDAR immediate-notification condition is active.
 
-`地區 ...` changes the monitored township. Chat-configured locations use the CWA all-township forecast dataset `F-D0047-093` and are saved in `state.json`.
+`地區 ...` changes the monitored township for proactive alerts and regular summaries. Chat-configured locations use the CWA all-township forecast dataset `F-D0047-093` and are saved in `state.json`.
 
 `天氣 ...` or `/weather ...` with a county and township performs a one-time weather query for that location without changing the monitored township.
 
@@ -167,13 +169,13 @@ docker compose up -d --build
 Run a one-time summary from Docker:
 
 ```bash
-docker compose run --rm xizhi-lidar-weather python weather_monitor.py --summary-now
+docker compose run --rm lidar-weather-bot python weather_monitor.py --summary-now
 ```
 
 If you do not run the long-running bot service, schedule this command from NAS cron or Task Scheduler every 15 minutes:
 
 ```bash
-docker compose run --rm xizhi-lidar-weather python weather_monitor.py
+docker compose run --rm lidar-weather-bot python weather_monitor.py
 ```
 
 If you use the default Docker service, it already runs `python weather_monitor.py --bot`, which both listens for Telegram weather questions and checks proactive alerts about every 15 minutes. Use NAS cron only if you prefer not to keep the bot service running.

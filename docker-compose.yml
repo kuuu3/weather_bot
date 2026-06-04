@@ -1,7 +1,7 @@
 services:
-  xizhi-lidar-weather:
+  lidar-weather-bot:
     build: .
-    container_name: xizhi-lidar-weather
+    container_name: lidar-weather-bot
     restart: unless-stopped
     env_file:
       - .env
