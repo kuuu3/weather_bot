@@ -1,7 +1,7 @@
 services:
-  lidar-weather-bot:
+  weather_bot:
     build: .
-    container_name: lidar-weather-bot
+    container_name: weather_bot
     restart: unless-stopped
     env_file:
       - .env
