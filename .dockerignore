@@ -1,0 +1,9 @@
+.env
+state.json
+weather_monitor.log
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+outputs/
+work/

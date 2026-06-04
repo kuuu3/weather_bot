@@ -1,0 +1,10 @@
+services:
+  xizhi-lidar-weather:
+    build: .
+    container_name: xizhi-lidar-weather
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./state.json:/app/state.json
+    command: ["python", "weather_monitor.py", "--bot"]
