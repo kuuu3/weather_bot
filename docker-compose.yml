@@ -1,7 +1,7 @@
 services:
-  weather_bot:
+  taiwan_weather_bot:
     build: .
-    container_name: weather_bot
+    container_name: taiwan_weather_bot
     restart: unless-stopped
     env_file:
       - .env

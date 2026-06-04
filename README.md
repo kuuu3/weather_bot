@@ -1,4 +1,4 @@
-# weather_bot
+# taiwan_weather_bot
 
 Small Python Telegram bot for finding LiDAR-worthy weather windows in Taiwan townships.
 
@@ -169,13 +169,13 @@ docker compose up -d --build
 Run a one-time summary from Docker:
 
 ```bash
-docker compose run --rm weather_bot python weather_monitor.py --summary-now
+docker compose run --rm taiwan_weather_bot python weather_monitor.py --summary-now
 ```
 
 If you do not run the long-running bot service, schedule this command from NAS cron or Task Scheduler every 15 minutes:
 
 ```bash
-docker compose run --rm weather_bot python weather_monitor.py
+docker compose run --rm taiwan_weather_bot python weather_monitor.py
 ```
 
 If you use the default Docker service, it already runs `python weather_monitor.py --bot`, which both listens for Telegram weather questions and checks proactive alerts about every 15 minutes. Use NAS cron only if you prefer not to keep the bot service running.
