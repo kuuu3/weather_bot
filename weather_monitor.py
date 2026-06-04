@@ -1797,7 +1797,7 @@ def must_getenv(name: str) -> str:
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Monitor CWA weather for Xizhi LiDAR collection.")
+    parser = argparse.ArgumentParser(description="Monitor CWA weather for Taiwan LiDAR collection.")
     parser.add_argument("--dry-run", action="store_true", help="Print Telegram messages instead of sending them.")
     parser.add_argument("--summary-now", action="store_true", help="Send/preview the regular summary immediately.")
     parser.add_argument("--bot", action="store_true", help="Run Telegram bot mode for /weather and 即時天氣 queries.")
